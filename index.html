@@ -589,18 +589,33 @@ Me considero una persona con grandes valores personales y sociales, soy una pers
             await cargarLibsPDF();
 
             const element = document.getElementById('cvMainContainer');
-            // renderizar el elemento a canvas
-            // use a consistent effective scale so output matches between devices
+            // Render a cloned copy at a fixed desktop width off-screen so mobile output matches PC
+            const forcedWidthPx = 1150; // desktop layout width (matches .cv-card max-width)
             const effectiveScale = Math.max(2, window.devicePixelRatio || 1);
-            const canvas = await html2canvas(element, { scale: effectiveScale, useCORS: true, letterRendering: true });
+
+            // Clone element and insert off-screen
+            const clone = element.cloneNode(true);
+            clone.style.width = forcedWidthPx + 'px';
+            clone.style.position = 'absolute';
+            clone.style.left = '-9999px';
+            clone.style.top = '0';
+            // ensure images inside clone load
+            document.body.appendChild(clone);
+            const imgs = clone.querySelectorAll('img');
+            await Promise.all(Array.from(imgs).map(img => new Promise(resolve => {
+                if (img.complete) return resolve();
+                img.onload = img.onerror = () => resolve();
+            })));
+
+            // render clone to canvas at consistent scale
+            const canvas = await html2canvas(clone, { scale: effectiveScale, useCORS: true, letterRendering: true });
             const imgData = canvas.toDataURL('image/jpeg', 0.95);
 
             const { jsPDF } = window.jspdf;
 
-            // compute physical size in mm from CSS pixel dimensions (independent of device DPR)
-            const rect = element.getBoundingClientRect();
-            const cssWidthPx = rect.width; // CSS pixels
-            const cssHeightPx = rect.height;
+            // compute physical size in mm from CSS pixel dimensions (use forcedWidth to be device-independent)
+            const cssWidthPx = forcedWidthPx; // CSS pixels we forced on the clone
+            const cssHeightPx = clone.getBoundingClientRect().height; // CSS pixels
             const mmPerInch = 25.4;
             const cssPxPerInch = 96; // standard CSS reference
             const imgWmm = (cssWidthPx * mmPerInch) / cssPxPerInch;
@@ -629,6 +644,9 @@ Me considero una persona con grandes valores personales y sociales, soy una pers
             const best = (landscape.scaleRatio > portrait.scaleRatio) ? landscape : portrait;
             best.pdf.addImage(imgData, 'JPEG', best.x, best.y, best.renderW, best.renderH);
             best.pdf.save(`CV_${CV_DATA.nombre.replace(/\s/g, '_')}.pdf`);
+
+            // cleanup
+            document.body.removeChild(clone);
         } catch (error) {
             console.error('Error al generar PDF en una sola página:', error);
             alert('Hubo un error al generar el PDF. Revisa la consola.');
