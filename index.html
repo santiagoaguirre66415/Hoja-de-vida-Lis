@@ -599,11 +599,11 @@ Me considero una persona con grandes valores personales y sociales, soy una pers
             clone.style.position = 'absolute';
             clone.style.left = '-9999px';
             clone.style.top = '0';
-            // hide PDF button and its container in the clone so it doesn't appear in the exported PDF
+            // Remove the PDF button from the clone so it never gets captured
             const btnContainerClone = clone.querySelector('.btn-pdf-container');
-            if (btnContainerClone) btnContainerClone.style.display = 'none';
+            if (btnContainerClone) btnContainerClone.remove();
             const pdfBtnClone = clone.querySelector('#downloadPdfBtn');
-            if (pdfBtnClone) pdfBtnClone.style.display = 'none';
+            if (pdfBtnClone) pdfBtnClone.remove();
             // ensure images inside clone load
             document.body.appendChild(clone);
             const imgs = clone.querySelectorAll('img');
@@ -613,7 +613,15 @@ Me considero una persona con grandes valores personales y sociales, soy una pers
             })));
 
             // render clone to canvas at consistent scale
-            const canvas = await html2canvas(clone, { scale: effectiveScale, useCORS: true, letterRendering: true });
+            const canvas = await html2canvas(clone, {
+                scale: effectiveScale,
+                useCORS: true,
+                letterRendering: true,
+                windowWidth: forcedWidthPx,
+                windowHeight: clone.scrollHeight,
+                scrollX: 0,
+                scrollY: 0
+            });
             const imgData = canvas.toDataURL('image/jpeg', 0.95);
 
             const { jsPDF } = window.jspdf;
