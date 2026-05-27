@@ -590,26 +590,29 @@ Me considero una persona con grandes valores personales y sociales, soy una pers
 
             const element = document.getElementById('cvMainContainer');
             // renderizar el elemento a canvas
-            const canvas = await html2canvas(element, { scale: 2, useCORS: true, letterRendering: true });
+            // use a consistent effective scale so output matches between devices
+            const effectiveScale = Math.max(2, window.devicePixelRatio || 1);
+            const canvas = await html2canvas(element, { scale: effectiveScale, useCORS: true, letterRendering: true });
             const imgData = canvas.toDataURL('image/jpeg', 0.95);
 
             const { jsPDF } = window.jspdf;
 
-            // intentamos elegir la orientación que maximice el tamaño del contenido
+            // compute physical size in mm from CSS pixel dimensions (independent of device DPR)
+            const rect = element.getBoundingClientRect();
+            const cssWidthPx = rect.width; // CSS pixels
+            const cssHeightPx = rect.height;
+            const mmPerInch = 25.4;
+            const cssPxPerInch = 96; // standard CSS reference
+            const imgWmm = (cssWidthPx * mmPerInch) / cssPxPerInch;
+            const imgHmm = (cssHeightPx * mmPerInch) / cssPxPerInch;
+
             const tryCreatePdf = (orientation) => {
                 const p = new jsPDF(orientation, 'mm', 'a4');
                 const pw = p.internal.pageSize.getWidth();
                 const ph = p.internal.pageSize.getHeight();
-
-                // calcular conversión px -> mm usando devicePixelRatio para mayor precisión
-                const pxPerMm = (96 * (window.devicePixelRatio || 1)) / 25.4;
-                const imgWmm = canvas.width / pxPerMm;
-                const imgHmm = canvas.height / pxPerMm;
-
                 const marginMm = 8; // margen razonable
                 const usableW = pw - marginMm * 2;
                 const usableH = ph - marginMm * 2;
-
                 const scaleRatio = Math.min(usableW / imgWmm, usableH / imgHmm);
                 return {
                     pdf: p,
@@ -623,8 +626,6 @@ Me considero una persona con grandes valores personales y sociales, soy una pers
 
             const portrait = tryCreatePdf('p');
             const landscape = tryCreatePdf('l');
-
-            // elegir la orientación que dé mayor escalaRatio (mejor uso del espacio)
             const best = (landscape.scaleRatio > portrait.scaleRatio) ? landscape : portrait;
             best.pdf.addImage(imgData, 'JPEG', best.x, best.y, best.renderW, best.renderH);
             best.pdf.save(`CV_${CV_DATA.nombre.replace(/\s/g, '_')}.pdf`);
