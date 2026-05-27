@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>CV Profesional | Hoja de Vida Ejecutiva</title>
+    <!-- Font Awesome 6 (sólidos y profesionales) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts: estilos serios y elegantes -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #eef2f5;
+            font-family: 'Inter', sans-serif;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* CONTENEDOR PRINCIPAL ESTILO FORMAL / EJECUTIVO */
+        .cv-card {
+            max-width: 1150px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+
+        /* Layout flex dos columnas (formal, simétrico) */
+        .cv-grid {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        /* === COLUMNA IZQUIERDA (datos sobrios, fondo gris oscuro profesional) === */
+        .sidebar-dark {
+            flex: 1.2;
+            background: #1e2b32;
+            color: #e7edf2;
+            padding: 2rem 1.6rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+        }
+
+        /* Foto corporativa */
+        .photo-wrapper {
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid #c9a87b;
+            background: #fff;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+        }
+        .nombre-side {
+            font-family: 'Merriweather', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 1rem;
+            color: white;
+            letter-spacing: -0.3px;
+            line-height: 1.3;
+        }
+        .profesion-tag {
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 500;
+            background: rgba(201, 168, 123, 0.2);
+            display: inline-block;
+            width: auto;
+            margin: 0.5rem auto 0;
+            padding: 0.25rem 1rem;
+            border-radius: 30px;
+            color: #e2c29b;
+            letter-spacing: 0.3px;
+        }
+
+        /* Bloques de información */
+        .info-segment h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.2rem;
+            border-left: 3px solid #c9a87b;
+            padding-left: 12px;
+            color: #f0f3f7;
+        }
+        .contact-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+        .contact-row i {
+            width: 24px;
+            font-size: 1rem;
+            color: #c9a87b;
+            text-align: center;
+        }
+        .contact-row span {
+            flex: 1;
+        }
+        .hr-light {
+            height: 1px;
+            background: rgba(255,255,255,0.15);
+            margin: 0.8rem 0;
+        }
+        .skill-badge {
+            font-size: 0.8rem;
+            margin-bottom: 0.7rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .skill-badge i {
+            color: #c9a87b;
+            font-size: 0.7rem;
+        }
+
+        /* === COLUMNA DERECHA (experiencia, perfil, formación) === */
+        .main-white {
+            flex: 2.3;
+            background: white;
+            padding: 2rem 2rem 2rem 2rem;
+        }
+
+        /* Perfil ejecutivo */
+        .profile-exec {
+            background: #faf9f8;
+            border-left: 5px solid #c9a87b;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .profile-exec h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e2b32;
+            margin-bottom: 0.7rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .profile-exec p {
+            font-size: 0.92rem;
+            line-height: 1.55;
+            color: #2c3e44;
+        }
+
+        /* Secciones formales */
+        .section-resume {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid #e2dcd5;
+            padding-bottom: 0.55rem;
+            margin-bottom: 1.3rem;
+        }
+        .section-title i {
+            font-size: 1.3rem;
+            color: #8b6b42;
+        }
+        .section-title h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #1e2b32;
+            letter-spacing: -0.2px;
+        }
+
+        /* Items experiencia */
+        .exp-item, .edu-item {
+            margin-bottom: 1.6rem;
+        }
+        .exp-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.2rem;
+        }
+        .exp-role {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #1e2b32;
+        }
+        .exp-date {
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #6c7e89;
+            background: #f0f2f4;
+            padding: 0.2rem 0.7rem;
+            border-radius: 20px;
+        }
+        .exp-company {
+            font-weight: 600;
+            color: #8b6b42;
+            font-size: 0.85rem;
+            margin: 0.2rem 0 0.5rem;
+        }
+        .exp-description {
+            font-size: 0.85rem;
+            color: #2c3e44;
+            line-height: 1.5;
+            padding-left: 0.4rem;
+            border-left: 2px solid #e0d3c3;
+        }
+
+        .edu-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.2rem;
+        }
+        .edu-degree {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #1e2b32;
+        }
+        .edu-date {
+            font-size: 0.7rem;
+            background: #f0f2f4;
+            padding: 0.2rem 0.7rem;
+            border-radius: 20px;
+        }
+        .edu-institution {
+            font-weight: 500;
+            color: #8b6b42;
+            font-size: 0.85rem;
+            margin: 0.2rem 0 0.4rem;
+        }
+        .edu-detail {
+            font-size: 0.83rem;
+            color: #3a535e;
+            line-height: 1.45;
+        }
+
+        /* Botón PDF muy formal */
+        .btn-pdf-container {
+            margin-top: 2rem;
+            text-align: right;
+            border-top: 1px solid #eae3db;
+            padding-top: 1.5rem;
+        }
+        .btn-generate {
+            background: #1e2b32;
+            border: none;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            padding: 10px 24px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .btn-generate:hover {
+            background: #c9a87b;
+            color: #1e2b32;
+        }
+
+        /* FOOTER */
+        .cv-footer {
+            background: #fbfaf8;
+            text-align: center;
+            padding: 0.8rem;
+            font-size: 0.7rem;
+            color: #6f8a99;
+            border-top: 1px solid #ece5de;
+        }
+
+        /* ===== RESPONSIVE: TELÉFONO Y TABLET ===== */
+        @media (max-width: 850px) {
+            body {
+                padding: 15px;
+            }
+            .cv-grid {
+                flex-direction: column;
+            }
+            .sidebar-dark {
+                text-align: left;
+                padding: 1.8rem;
+            }
+            .photo-wrapper {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .contact-row {
+                justify-content: flex-start;
+            }
+            .main-white {
+                padding: 1.8rem;
+            }
+            .exp-header, .edu-header {
+                flex-direction: column;
+                gap: 5px;
+            }
+            .profile-img {
+                width: 120px;
+                height: 120px;
+            }
+            .nombre-side {
+                font-size: 1.4rem;
+            }
+            .btn-pdf-container {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-white {
+                padding: 1.2rem;
+            }
+            .profile-exec {
+                padding: 1rem;
+            }
+            .section-title h2 {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* detalles de impresión/extra */
+        a, button {
+            outline: none;
+        }
+        i.fa, i.far, i.fas {
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="cv-card" id="cvMainContainer">
+    <div class="cv-grid">
+        <!-- Lado izquierdo: foto + datos formales -->
+        <div class="sidebar-dark" id="sidebarData">
+            <div class="photo-wrapper">
+                <img src="./Andrea 3x4.jpg.jpeg" alt="foto profesional" class="profile-img" id="fotoPerfil">
+                <div class="nombre-side" id="nombreCompletoSide">Lisette Andrea Rodríguez Franco</div>
+                <div class="profesion-tag">Asesora de Ventas y Atencion al Cliente</div>
+            </div>
+
+            <div class="info-segment">
+                <h3><i class="fas fa-address-card" style="margin-right: 6px;"></i> CONTACTO</h3>
+                <div class="contact-row"><i class="fas fa-envelope"></i> <span id="correoValue">andrea_franco_rodriguez@outlook.es</span></div>
+                <div class="contact-row"><i class="fas fa-phone"></i> <span id="telefonoValue">+57 350 2221025</span></div>
+                <div class="contact-row"><i class="fas fa-id-card"></i> <span id="documentoValue">CC 1060657266</span></div>
+                <div class="contact-row"><i class="fas fa-home"></i> <span id="direccionValue">Carrera 94a # 129b - 76</span></div>
+                <div class="contact-row"><i class="fas fa-map-pin"></i> <span id="localidadValue">Localidad: Suba</span></div>
+                <div class="contact-row"><i class="fas fa-tree"></i> <span id="barrioValue">Barrio: Rincón</span></div>
+            </div>
+
+            <div class="hr-light"></div>
+
+            <div class="info-segment">
+                <h3><i class="fas fa-cogs"></i> COMPETENCIAS</h3>
+                <div class="skill-badge"><i class="fas fa-chevron-right"></i> <span>Trabajo en equipo</span></div>
+                <div class="skill-badge"><i class="fas fa-chevron-right"></i> <span>Trabajo bajo presión</span></div>
+                <div class="skill-badge"><i class="fas fa-chevron-right"></i> <span>Capacidad de aprendizaje rapido</span></div>
+                <div class="skill-badge"><i class="fas fa-chevron-right"></i> <span>Negociación efectiva</span></div>
+                <div class="skill-badge"><i class="fas fa-chevron-right"></i> <span>Comunicación efectiva</span></div>
+            </div>
+        </div>
+
+        <!-- Lado derecho: Perfil, Experiencia, Formación -->
+        <div class="main-white" id="mainContent">
+            <div class="profile-exec" id="perfilBloque">
+                <h2><i class="fas fa-user-tie"></i> Perfil profesional</h2>
+                <p id="perfilTexto">Experiencia en áreas comerciales, mercadeo y servicio al cliente, realizando labores de asesoría en compra y venta de productos tangibles, consecución y mantenimiento de clientes, diseño de mercadeo y venta, manejo de dinero en efectivo, coordinación de personal, realización y entrega de informes. Liderazgo, trabajo en equipo, orientación al logro, comunicación efectiva, persuasión y negociación como principales características de atención al cliente.
+
+Me considero una persona con grandes valores personales y sociales, soy una persona honesta, respetuosa, sincera y con gran virtud para interactuar con las demás personas.</p>
+            </div>
+
+            <div class="section-resume">
+                <div class="section-title">
+                    <i class="fas fa-briefcase"></i>
+                    <h2>Experiencia profesional</h2>
+                </div>
+                <div id="experienciasContainer"></div>
+            </div>
+
+            <div class="section-resume">
+                <div class="section-title">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h2>Formación académica</h2>
+                </div>
+                <div id="formacionContainer"></div>
+            </div>
+
+            <div class="btn-pdf-container">
+                <button class="btn-generate" id="downloadPdfBtn"><i class="fas fa-file-pdf"></i> Exportar a PDF</button>
+            </div>
+        </div>
+    </div>
+    <div class="cv-footer">
+        <i class="fas fa-laptop-code"></i> Hoja de vida actualizada · Disponibilidad inmediata
+    </div>
+</div>
+
+<script>
+    // ============================================================
+    // DATOS ACTUALIZADOS PARA LA PRIMA (COMPLETAMENTE PERSONALIZABLES)
+    // Aquí colocas la información real de tu prima
+    // ============================================================
+    const CV_DATA = {
+        // --- Datos personales + foto ---
+        foto: "./Andrea 3x4.jpg.jpeg",  // <--- Cambia por la URL de la foto de tu prima (o ruta local)
+        nombre: "Lisette Andrea Rodríguez Franco ",
+        correo: "andrea_franco_rodriguez@outlook.es",
+        telefono: "+57 350 2221025",
+        documento: "CC 1060657266",
+        direccion: "Carrera 94a # 129b - 76",
+        localidad: "Suba",
+        barrio: "Rincón",
+        // --- Perfil laboral (texto formal) ---
+        perfil: "Experiencia en áreas comerciales, mercadeo y servicio al cliente, realizando labores de asesoría en compra y venta de productos tangibles, consecución y mantenimiento de clientes, diseño de mercadeo y venta, manejo de dinero en efectivo, coordinación de personal, realización y entrega de informes. Liderazgo, trabajo en equipo, orientación al logro, comunicación efectiva, persuasión y negociación como principales características de atención al cliente. Me considero una persona con grandes valores personales y sociales, soy una persona honesta, respetuosa, sincera y con gran virtud para interactuar con las demás personas.",
+        // --- Experiencias Laborales (3 experiencias bien detalladas) ---
+        experiencias: [
+            {
+                cargo: "Asesora de Ventas y Atención al Cliente",
+                empresa: "Maqui+",
+                periodo: "Octubre 2024 - Febrero 2025",
+                descripcion: "Venta en frío de planes de financiamiento para vehículos y Venta en concesionarios."
+            },
+            {
+                cargo: "Asesora de Ventas y Atención al Cliente",
+                empresa: "Quiero Carro Fácil",
+                periodo: "Febrero 2025 - Marzo 2026",
+                descripcion: "Venta en concesionario, Venta por llamada telefónica y Venta en frío."
+            },
+            {
+                cargo: "Atención al cliente y Oficios varios",
+                empresa: "Panadería La Torta Italiana",
+                periodo: "Marzo 2026 - Actualmente",
+                descripcion: "Apoyo en la gestión de proyectos educativos, manejo de agenda de gerencia, elaboración de informes de gestión y coordinación de eventos corporativos. Mejora en la comunicación interna mediante herramientas colaborativas."
+            }
+        ],
+        // --- Formación académica (3 items sólidos) ---
+        formacion: [
+            {
+                titulo: "Bachiller",
+                institucion: "Institucion Educativa Malaver Manizales",
+                año: "FINALIZADO EN 2020",
+                detalle: "",
+            },
+            
+        ]
+    };
+
+    // ---------------------- FUNCIÓN PARA CARGAR LOS DATOS EN EL DOM ------------------
+    function renderizarCV(data) {
+        // 1. Foto de perfil
+        const fotoElement = document.getElementById('fotoPerfil');
+        if (fotoElement) {
+            fotoElement.src = data.foto;
+            fotoElement.alt = `Foto ${data.nombre}`;
+            // manejo de error si falla la imagen (colocar imagen por defecto)
+            fotoElement.onerror = function() {
+                this.src = "https://randomuser.me/api/portraits/women/68.jpg";
+            };
+        }
+        // 2. Nombre completo en sidebar
+        const nombreSide = document.getElementById('nombreCompletoSide');
+        if (nombreSide) nombreSide.innerText = data.nombre;
+        
+        // 3. Datos de contacto
+        document.getElementById('correoValue').innerText = data.correo;
+        document.getElementById('documentoValue').innerText = data.documento;
+        document.getElementById('direccionValue').innerText = data.direccion;
+        document.getElementById('localidadValue').innerText = `Localidad: ${data.localidad}`;
+        document.getElementById('barrioValue').innerText = `Barrio: ${data.barrio}`;
+        
+        // 4. Perfil profesional
+        const perfilParrafo = document.getElementById('perfilTexto');
+        if (perfilParrafo) perfilParrafo.innerText = data.perfil;
+        
+        // 5. Experiencias Laborales (generar dinámicamente)
+        const expContainer = document.getElementById('experienciasContainer');
+        if (expContainer) {
+            expContainer.innerHTML = '';
+            data.experiencias.forEach(exp => {
+                const expDiv = document.createElement('div');
+                expDiv.className = 'exp-item';
+                expDiv.innerHTML = `
+                    <div class="exp-header">
+                        <span class="exp-role">${escapeHtml(exp.cargo)}</span>
+                        <span class="exp-date">${escapeHtml(exp.periodo)}</span>
+                    </div>
+                    <div class="exp-company">${escapeHtml(exp.empresa)}</div>
+                    <div class="exp-description">${escapeHtml(exp.descripcion)}</div>
+                `;
+                expContainer.appendChild(expDiv);
+            });
+        }
+        
+        // 6. Formación académica
+        const eduContainer = document.getElementById('formacionContainer');
+        if (eduContainer) {
+            eduContainer.innerHTML = '';
+            data.formacion.forEach(edu => {
+                const eduDiv = document.createElement('div');
+                eduDiv.className = 'edu-item';
+                eduDiv.innerHTML = `
+                    <div class="edu-header">
+                        <span class="edu-degree">${escapeHtml(edu.titulo)}</span>
+                        <span class="edu-date">${escapeHtml(edu.año)}</span>
+                    </div>
+                    <div class="edu-institution">${escapeHtml(edu.institucion)}</div>
+                    <div class="edu-detail">${escapeHtml(edu.detalle)}</div>
+                `;
+                eduContainer.appendChild(eduDiv);
+            });
+        }
+        
+        // También actualizar título de la página
+        document.title = `CV | ${data.nombre}`;
+    }
+
+    // función de seguridad
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    // --- Lógica para exportar a PDF usando html2pdf (con carga dinámica) ---
+    let html2pdfLib = null;
+    async function cargarHtml2Pdf() {
+        if (typeof html2pdf !== 'undefined') return true;
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+            script.onload = () => resolve(true);
+            script.onerror = () => reject(new Error('No se pudo cargar la librería PDF'));
+            document.head.appendChild(script);
+        });
+    }
+
+    async function generarPDF() {
+        const btn = document.getElementById('downloadPdfBtn');
+        const originalText = btn.innerHTML;
+        try {
+            btn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Generando PDF...';
+            btn.disabled = true;
+            await cargarHtml2Pdf();
+            const element = document.getElementById('cvMainContainer');
+            // Opciones para PDF formal, bien ajustado
+            const opt = {
+                margin: [0.5, 0.5, 0.5, 0.5],
+                filename: `CV_${CV_DATA.nombre.replace(/\s/g, '_')}.pdf`,
+                image: { type: 'jpeg', quality: 0.95 },
+                html2canvas: { scale: 2, letterRendering: true, useCORS: true, logging: false },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+            await html2pdf().set(opt).from(element).save();
+        } catch (error) {
+            console.error('Error PDF:', error);
+            alert('Hubo un error al generar el PDF. Intenta de nuevo o revisa la consola.');
+        } finally {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    }
+
+    // Inicializar cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', () => {
+        renderizarCV(CV_DATA);
+        const pdfBtn = document.getElementById('downloadPdfBtn');
+        if (pdfBtn) {
+            pdfBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                generarPDF();
+            });
+        }
+    });
+    
+    // También asegurar que si el DOM ya está cargado, se ejecute inmediatamente
+    if (document.readyState === 'loading') {
+        // ya está el event listener arriba
+    } else {
+        renderizarCV(CV_DATA);
+    }
+</script>
+</body>
+</html>
