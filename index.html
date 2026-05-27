@@ -594,23 +594,40 @@ Me considero una persona con grandes valores personales y sociales, soy una pers
             const imgData = canvas.toDataURL('image/jpeg', 0.95);
 
             const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF('p', 'mm', 'a4');
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = pdf.internal.pageSize.getHeight();
 
-            // conversión aproximada px -> mm (asumiendo 96 dpi)
-            const pxPerMm = 96 / 25.4;
-            const imgWidthMm = canvas.width / pxPerMm;
-            const imgHeightMm = canvas.height / pxPerMm;
+            // intentamos elegir la orientación que maximice el tamaño del contenido
+            const tryCreatePdf = (orientation) => {
+                const p = new jsPDF(orientation, 'mm', 'a4');
+                const pw = p.internal.pageSize.getWidth();
+                const ph = p.internal.pageSize.getHeight();
 
-            const ratio = Math.min(pdfWidth / imgWidthMm, pdfHeight / imgHeightMm);
-            const renderWidth = imgWidthMm * ratio;
-            const renderHeight = imgHeightMm * ratio;
-            const x = (pdfWidth - renderWidth) / 2;
-            const y = (pdfHeight - renderHeight) / 2;
+                // calcular conversión px -> mm usando devicePixelRatio para mayor precisión
+                const pxPerMm = (96 * (window.devicePixelRatio || 1)) / 25.4;
+                const imgWmm = canvas.width / pxPerMm;
+                const imgHmm = canvas.height / pxPerMm;
 
-            pdf.addImage(imgData, 'JPEG', x, y, renderWidth, renderHeight);
-            pdf.save(`CV_${CV_DATA.nombre.replace(/\s/g, '_')}.pdf`);
+                const marginMm = 8; // margen razonable
+                const usableW = pw - marginMm * 2;
+                const usableH = ph - marginMm * 2;
+
+                const scaleRatio = Math.min(usableW / imgWmm, usableH / imgHmm);
+                return {
+                    pdf: p,
+                    scaleRatio,
+                    renderW: imgWmm * scaleRatio,
+                    renderH: imgHmm * scaleRatio,
+                    x: (pw - imgWmm * scaleRatio) / 2,
+                    y: (ph - imgHmm * scaleRatio) / 2
+                };
+            };
+
+            const portrait = tryCreatePdf('p');
+            const landscape = tryCreatePdf('l');
+
+            // elegir la orientación que dé mayor escalaRatio (mejor uso del espacio)
+            const best = (landscape.scaleRatio > portrait.scaleRatio) ? landscape : portrait;
+            best.pdf.addImage(imgData, 'JPEG', best.x, best.y, best.renderW, best.renderH);
+            best.pdf.save(`CV_${CV_DATA.nombre.replace(/\s/g, '_')}.pdf`);
         } catch (error) {
             console.error('Error al generar PDF en una sola página:', error);
             alert('Hubo un error al generar el PDF. Revisa la consola.');
