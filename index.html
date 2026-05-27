@@ -599,6 +599,11 @@ Me considero una persona con grandes valores personales y sociales, soy una pers
             clone.style.position = 'absolute';
             clone.style.left = '-9999px';
             clone.style.top = '0';
+            // hide PDF button and its container in the clone so it doesn't appear in the exported PDF
+            const btnContainerClone = clone.querySelector('.btn-pdf-container');
+            if (btnContainerClone) btnContainerClone.style.display = 'none';
+            const pdfBtnClone = clone.querySelector('#downloadPdfBtn');
+            if (pdfBtnClone) pdfBtnClone.style.display = 'none';
             // ensure images inside clone load
             document.body.appendChild(clone);
             const imgs = clone.querySelectorAll('img');
